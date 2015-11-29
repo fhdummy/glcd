@@ -215,8 +215,12 @@ int main()
 {
 	
 	MCP23S17_Init();
-	MCP23S17_SetDDR(0xFF);
-	MCP23S17_SetPins(0xFF);
+	MCP23S17_SetDDR(0x00);
+	MCP23S17_SetPins(0x00);
+	
+	uint16_t temp = MCP23S17_GetDDR();
+	
+	
 	
 	while(1)
 	{

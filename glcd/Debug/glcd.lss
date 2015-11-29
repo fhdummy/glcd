@@ -3,31 +3,31 @@ glcd.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000011c  00000000  00000000  00000074  2**1
+  0 .text         00000162  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  00000190  2**0
+  1 .data         00000000  00800060  00800060  000001d6  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000001  00800060  00800060  00000190  2**0
+  2 .bss          00000001  00800060  00800060  000001d6  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000190  2**0
+  3 .comment      00000030  00000000  00000000  000001d6  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001c0  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000208  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000078  00000000  00000000  000001fc  2**0
+  5 .debug_aranges 00000078  00000000  00000000  00000244  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000440  00000000  00000000  00000274  2**0
+  6 .debug_info   00000456  00000000  00000000  000002bc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000001a8  00000000  00000000  000006b4  2**0
+  7 .debug_abbrev 000001a8  00000000  00000000  00000712  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000001eb  00000000  00000000  0000085c  2**0
+  8 .debug_line   000001ec  00000000  00000000  000008ba  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000000f0  00000000  00000000  00000a48  2**2
+  9 .debug_frame  000000f0  00000000  00000000  00000aa8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000287  00000000  00000000  00000b38  2**0
+ 10 .debug_str    0000028c  00000000  00000000  00000b98  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000021b  00000000  00000000  00000dbf  2**0
+ 11 .debug_loc    0000021b  00000000  00000000  00000e24  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000068  00000000  00000000  00000fda  2**0
+ 12 .debug_ranges 00000068  00000000  00000000  0000103f  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -76,8 +76,8 @@ Disassembly of section .text:
   6a:	a1 36       	cpi	r26, 0x61	; 97
   6c:	b2 07       	cpc	r27, r18
   6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
-  70:	0e 94 81 00 	call	0x102	; 0x102 <main>
-  74:	0c 94 8c 00 	jmp	0x118	; 0x118 <_exit>
+  70:	0e 94 a2 00 	call	0x144	; 0x144 <main>
+  74:	0c 94 af 00 	jmp	0x15e	; 0x15e <_exit>
 
 00000078 <__bad_interrupt>:
   78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -236,31 +236,100 @@ void MCP23S17_SetPins(uint16_t data)
   fc:	0e 94 5d 00 	call	0xba	; 0xba <MCP23S17_WriteBothRegs>
  100:	08 95       	ret
 
-00000102 <main>:
+00000102 <MCP23S17_ReadBothRegs>:
+
+        DEASSERT_CS();
+}
+
+uint16_t MCP23S17_ReadBothRegs(uint8_t addrA)
+{
+ 102:	cf 93       	push	r28
+ 104:	df 93       	push	r29
+ 106:	c8 2f       	mov	r28, r24
+        uint16_t returnVal;
+
+        ASSERT_CS();
+ 108:	c4 98       	cbi	0x18, 4	; 24
+
+        // Start off the communication by telling the MCP23S17 that we are reading from a register
+        MCP23S17_ByteRW(MCP23S17_CONTROL_READ(0));
+ 10a:	81 e4       	ldi	r24, 0x41	; 65
+ 10c:	0e 94 58 00 	call	0xb0	; 0xb0 <MCP23S17_ByteRW>
+
+        // Tell it which register we're reading from (the "A" register)
+        MCP23S17_ByteRW(addrA);
+ 110:	8c 2f       	mov	r24, r28
+ 112:	0e 94 58 00 	call	0xb0	; 0xb0 <MCP23S17_ByteRW>
+
+        // Read the first byte of the register
+        returnVal = (((uint16_t)MCP23S17_ByteRW(0)) << 8);
+ 116:	80 e0       	ldi	r24, 0x00	; 0
+ 118:	0e 94 58 00 	call	0xb0	; 0xb0 <MCP23S17_ByteRW>
+ 11c:	c8 2f       	mov	r28, r24
+ 11e:	d0 e0       	ldi	r29, 0x00	; 0
+ 120:	dc 2f       	mov	r29, r28
+ 122:	cc 27       	eor	r28, r28
+
+        // It should auto-increment to the "B" register, now read that
+        returnVal |= MCP23S17_ByteRW(0);
+ 124:	80 e0       	ldi	r24, 0x00	; 0
+ 126:	0e 94 58 00 	call	0xb0	; 0xb0 <MCP23S17_ByteRW>
+
+        DEASSERT_CS();
+ 12a:	c4 9a       	sbi	0x18, 4	; 24
+
+        return returnVal;
+}
+ 12c:	9e 01       	movw	r18, r28
+ 12e:	28 2b       	or	r18, r24
+ 130:	c9 01       	movw	r24, r18
+ 132:	df 91       	pop	r29
+ 134:	cf 91       	pop	r28
+ 136:	08 95       	ret
+
+00000138 <MCP23S17_GetDDR>:
+uint16_t MCP23S17_GetDDR(void)
+{
+        // As I mentioned above, DDR bits are inverted from
+        // what the MCP23S17's datasheet says, but
+        // consistent with what the AVR's datasheet says
+        return ~MCP23S17_ReadBothRegs(MCP23S17_IODIRA);
+ 138:	80 e0       	ldi	r24, 0x00	; 0
+ 13a:	0e 94 81 00 	call	0x102	; 0x102 <MCP23S17_ReadBothRegs>
+}
+ 13e:	80 95       	com	r24
+ 140:	90 95       	com	r25
+ 142:	08 95       	ret
+
+00000144 <main>:
 }
 
 int main()
 {
 	
 	MCP23S17_Init();
- 102:	0e 94 3e 00 	call	0x7c	; 0x7c <MCP23S17_Init>
-	MCP23S17_SetDDR(0xFF);
- 106:	8f ef       	ldi	r24, 0xFF	; 255
- 108:	90 e0       	ldi	r25, 0x00	; 0
- 10a:	0e 94 75 00 	call	0xea	; 0xea <MCP23S17_SetDDR>
-	MCP23S17_SetPins(0xFF);
- 10e:	8f ef       	ldi	r24, 0xFF	; 255
- 110:	90 e0       	ldi	r25, 0x00	; 0
- 112:	0e 94 7c 00 	call	0xf8	; 0xf8 <MCP23S17_SetPins>
+ 144:	0e 94 3e 00 	call	0x7c	; 0x7c <MCP23S17_Init>
+	MCP23S17_SetDDR(0x00);
+ 148:	80 e0       	ldi	r24, 0x00	; 0
+ 14a:	90 e0       	ldi	r25, 0x00	; 0
+ 14c:	0e 94 75 00 	call	0xea	; 0xea <MCP23S17_SetDDR>
+	MCP23S17_SetPins(0x00);
+ 150:	80 e0       	ldi	r24, 0x00	; 0
+ 152:	90 e0       	ldi	r25, 0x00	; 0
+ 154:	0e 94 7c 00 	call	0xf8	; 0xf8 <MCP23S17_SetPins>
+	
+	uint16_t temp = MCP23S17_GetDDR();
+ 158:	0e 94 9c 00 	call	0x138	; 0x138 <MCP23S17_GetDDR>
+	
 	
 	while(1)
 	{
 		
 	}
- 116:	ff cf       	rjmp	.-2      	; 0x116 <main+0x14>
+ 15c:	ff cf       	rjmp	.-2      	; 0x15c <main+0x18>
 
-00000118 <_exit>:
- 118:	f8 94       	cli
+0000015e <_exit>:
+ 15e:	f8 94       	cli
 
-0000011a <__stop_program>:
- 11a:	ff cf       	rjmp	.-2      	; 0x11a <__stop_program>
+00000160 <__stop_program>:
+ 160:	ff cf       	rjmp	.-2      	; 0x160 <__stop_program>
