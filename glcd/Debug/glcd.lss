@@ -3,29 +3,31 @@ glcd.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000000da  00000000  00000000  00000054  2**1
+  0 .text         0000011c  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  0000012e  2**0
+  1 .data         00000000  00800060  00800060  00000190  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  0000012e  2**0
+  2 .bss          00000001  00800060  00800060  00000190  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000190  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000160  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001c0  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000048  00000000  00000000  0000019c  2**0
+  5 .debug_aranges 00000078  00000000  00000000  000001fc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000003f0  00000000  00000000  000001e4  2**0
+  6 .debug_info   00000440  00000000  00000000  00000274  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000018c  00000000  00000000  000005d4  2**0
+  7 .debug_abbrev 000001a8  00000000  00000000  000006b4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000162  00000000  00000000  00000760  2**0
+  8 .debug_line   000001eb  00000000  00000000  0000085c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000090  00000000  00000000  000008c4  2**2
+  9 .debug_frame  000000f0  00000000  00000000  00000a48  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000001f3  00000000  00000000  00000954  2**0
+ 10 .debug_str    00000287  00000000  00000000  00000b38  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000083  00000000  00000000  00000b47  2**0
+ 11 .debug_loc    0000021b  00000000  00000000  00000dbf  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000038  00000000  00000000  00000bca  2**0
+ 12 .debug_ranges 00000068  00000000  00000000  00000fda  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -71,107 +73,194 @@ Disassembly of section .text:
   68:	1d 92       	st	X+, r1
 
 0000006a <.do_clear_bss_start>:
-  6a:	a0 36       	cpi	r26, 0x60	; 96
+  6a:	a1 36       	cpi	r26, 0x61	; 97
   6c:	b2 07       	cpc	r27, r18
   6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
-  70:	0e 94 66 00 	call	0xcc	; 0xcc <main>
-  74:	0c 94 6b 00 	jmp	0xd6	; 0xd6 <_exit>
+  70:	0e 94 81 00 	call	0x102	; 0x102 <main>
+  74:	0c 94 8c 00 	jmp	0x118	; 0x118 <_exit>
 
 00000078 <__bad_interrupt>:
   78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-0000007c <initSPI>:
-	// Select a font
-	ks0108SelectFont(Corsiva_12, ks0108ReadFontData, BLACK);
-	// Set a position
-	ks0108GotoXY(5,30);
-	// Print some text
-	ks0108Puts_P(PSTR("http://www.apetech.de\nmailto:me@apetech.de"));
-  7c:	82 ea       	ldi	r24, 0xA2	; 162
-  7e:	87 bb       	out	0x17, r24	; 23
-  80:	c1 9a       	sbi	0x18, 1	; 24
-  82:	81 e5       	ldi	r24, 0x51	; 81
-}
-  84:	8d b9       	out	0x0d, r24	; 13
-  86:	08 95       	ret
+0000007c <MCP23S17_Init>:
+uint8_t MCP23S17_ByteRW(uint8_t b);
 
-00000088 <SPI_Write>:
-  88:	c1 98       	cbi	0x18, 1	; 24
-  8a:	90 e4       	ldi	r25, 0x40	; 64
-  8c:	9f b9       	out	0x0f, r25	; 15
-  8e:	77 9b       	sbis	0x0e, 7	; 14
-  90:	fe cf       	rjmp	.-4      	; 0x8e <SPI_Write+0x6>
-	// Start MCP23S17 OpCode transmission
-	SPDR = SPI_SLAVE_ID | ((SPI_SLAVE_ADDR << 1) & 0x0E)| SPI_SLAVE_WRITE;
-	// Wait for transmission complete
-	while(!(SPSR & (1<<SPIF)));
-	// Start MCP23S17 Register Address transmission
-	SPDR = addr;
-  92:	8f b9       	out	0x0f, r24	; 15
-	// Wait for transmission complete
-	while(!(SPSR & (1<<SPIF)));
-  94:	77 9b       	sbis	0x0e, 7	; 14
-  96:	fe cf       	rjmp	.-4      	; 0x94 <SPI_Write+0xc>
-
-	// Start Data transmission
-	SPDR = data;
-  98:	6f b9       	out	0x0f, r22	; 15
-	// Wait for transmission complete
-	while(!(SPSR & (1<<SPIF)));
-  9a:	77 9b       	sbis	0x0e, 7	; 14
-  9c:	fe cf       	rjmp	.-4      	; 0x9a <SPI_Write+0x12>
-	// CS pin is not active
-	SPI_PORT |= (1<<SPI_CS);
-  9e:	c1 9a       	sbi	0x18, 1	; 24
-  a0:	08 95       	ret
-
-000000a2 <initMCP23S17>:
-	SPCR = (1<<SPE) | (1<<MSTR) | (1<<SPR0);
-}
-
-void initMCP23S17()
+void MCP23S17_Init()
 {
-	SPI_Write(IOCONA,0x28);   // I/O Control Register: BANK=0, SEQOP=1, HAEN=1 (Enable Addressing)
-  a2:	68 e2       	ldi	r22, 0x28	; 40
-  a4:	8a e0       	ldi	r24, 0x0A	; 10
-  a6:	0e 94 44 00 	call	0x88	; 0x88 <SPI_Write>
-	SPI_Write(IODIRA,0x00);   // GPIOA As Output
-  aa:	60 e0       	ldi	r22, 0x00	; 0
-  ac:	80 e0       	ldi	r24, 0x00	; 0
-  ae:	0e 94 44 00 	call	0x88	; 0x88 <SPI_Write>
-	SPI_Write(IODIRB,0x00);   // GPIOB As Output
-  b2:	60 e0       	ldi	r22, 0x00	; 0
-  b4:	81 e0       	ldi	r24, 0x01	; 1
-  b6:	0e 94 44 00 	call	0x88	; 0x88 <SPI_Write>
-	SPI_Write(GPIOA,0x00);    // Reset Output on GPIOA
-  ba:	60 e0       	ldi	r22, 0x00	; 0
-  bc:	82 e1       	ldi	r24, 0x12	; 18
-  be:	0e 94 44 00 	call	0x88	; 0x88 <SPI_Write>
-	SPI_Write(GPIOB,0x00);    // Reset Output on GPIOB
-  c2:	60 e0       	ldi	r22, 0x00	; 0
-  c4:	83 e1       	ldi	r24, 0x13	; 19
-  c6:	0e 94 44 00 	call	0x88	; 0x88 <SPI_Write>
-  ca:	08 95       	ret
+        // If it has already been initialized, no need to do it again.
+        if (MCP23S17_Inited)
+  7c:	80 91 60 00 	lds	r24, 0x0060
+  80:	81 11       	cpse	r24, r1
+  82:	15 c0       	rjmp	.+42     	; 0xae <MCP23S17_Init+0x32>
+        }
 
-000000cc <main>:
-#define GPIOA  0x12
-#define GPIOB  0x13
+        // Initialize the SPI pins
+        // Set MOSI, SCLK, and CS as outputs, MISO as input
+        // (Also, set the MCP23S17 reset line as an output)
+        DDRB |= SPI_CS | SPI_SCK | SPI_MOSI | MCP23S17_RESET;
+  84:	87 b3       	in	r24, 0x17	; 23
+  86:	81 6b       	ori	r24, 0xB1	; 177
+  88:	87 bb       	out	0x17, r24	; 23
+        DDRB &= ~SPI_MISO;
+  8a:	be 98       	cbi	0x17, 6	; 23
+        // We can run it at 8 MHz (divider of 2 from 16 MHz system clock -- maximum speed of MCP23S17 10 MHz)
+#if ((F_CPU / 2) > 10000000)
+#error This code assumes that the CPU clock divided by 2 is less than or equal to the MCP23S17's maximum speed of 10 MHz, and in this case, it's not.
+#endif
 
-int main(void) 
+        SPCR =  (0 << SPIE) | // No SPI interrupts
+  8c:	80 e5       	ldi	r24, 0x50	; 80
+  8e:	8d b9       	out	0x0d, r24	; 13
+                        (1 << MSTR) | // Master mode
+                        (0 << CPOL) | // SPI mode 0,0
+                        (0 << CPHA) |
+                        (0 << SPR0);  // SCK frequency = F_CPU/2 (because of SPI2X being set below
+
+        SPSR = (1 << SPI2X);  // Double the SPI clock rate -- allows /2 instead of /4
+  90:	81 e0       	ldi	r24, 0x01	; 1
+  92:	8e b9       	out	0x0e, r24	; 14
+
+        // Leave CS deasserted
+        DEASSERT_CS();
+  94:	c4 9a       	sbi	0x18, 4	; 24
+
+        // Pull the MCP23S17 out of reset (it's pulled down to GND on the board with a 100k pulldown
+        // so it won't activate during AVR ISP programming)
+        PORTB |= MCP23S17_RESET;
+  96:	c0 9a       	sbi	0x18, 0	; 24
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  98:	2f e7       	ldi	r18, 0x7F	; 127
+  9a:	38 e3       	ldi	r19, 0x38	; 56
+  9c:	91 e0       	ldi	r25, 0x01	; 1
+  9e:	21 50       	subi	r18, 0x01	; 1
+  a0:	30 40       	sbci	r19, 0x00	; 0
+  a2:	90 40       	sbci	r25, 0x00	; 0
+  a4:	e1 f7       	brne	.-8      	; 0x9e <MCP23S17_Init+0x22>
+  a6:	00 c0       	rjmp	.+0      	; 0xa8 <MCP23S17_Init+0x2c>
+  a8:	00 00       	nop
+
+        _delay_ms(50);
+
+        // All done!
+        MCP23S17_Inited = true;
+  aa:	80 93 60 00 	sts	0x0060, r24
+  ae:	08 95       	ret
+
+000000b0 <MCP23S17_ByteRW>:
+        return MCP23S17_ReadBothRegs(MCP23S17_GPPUA);
+}
+
+uint8_t MCP23S17_ByteRW(uint8_t b)
 {
-	initSPI();
-  cc:	0e 94 3e 00 	call	0x7c	; 0x7c <initSPI>
-	initMCP23S17();
-  d0:	0e 94 51 00 	call	0xa2	; 0xa2 <initMCP23S17>
+        SPDR = b;
+  b0:	8f b9       	out	0x0f, r24	; 15
+        while ((SPSR & (1 << SPIF)) == 0);
+  b2:	77 9b       	sbis	0x0e, 7	; 14
+  b4:	fe cf       	rjmp	.-4      	; 0xb2 <MCP23S17_ByteRW+0x2>
+        return SPDR;
+  b6:	8f b1       	in	r24, 0x0f	; 15
+}
+  b8:	08 95       	ret
+
+000000ba <MCP23S17_WriteBothRegs>:
+
+void MCP23S17_WriteBothRegs(uint8_t addrA, uint16_t value)
+{
+  ba:	1f 93       	push	r17
+  bc:	cf 93       	push	r28
+  be:	df 93       	push	r29
+  c0:	18 2f       	mov	r17, r24
+  c2:	c6 2f       	mov	r28, r22
+  c4:	d7 2f       	mov	r29, r23
+        // addrA should contain the address of the "A" register.
+        // the chip should also be in "same bank" mode.
+
+        ASSERT_CS();
+  c6:	c4 98       	cbi	0x18, 4	; 24
+
+        // Start off the communication by telling the MCP23S17 that we are writing to a register
+        MCP23S17_ByteRW(MCP23S17_CONTROL_WRITE(0));
+  c8:	80 e4       	ldi	r24, 0x40	; 64
+  ca:	0e 94 58 00 	call	0xb0	; 0xb0 <MCP23S17_ByteRW>
+
+        // Tell it the first register we're writing to (the "A" register)
+        MCP23S17_ByteRW(addrA);
+  ce:	81 2f       	mov	r24, r17
+  d0:	0e 94 58 00 	call	0xb0	; 0xb0 <MCP23S17_ByteRW>
+
+        // Write the first byte of the register
+        MCP23S17_ByteRW((uint8_t)((value >> 8) & 0xFF));
+  d4:	8d 2f       	mov	r24, r29
+  d6:	0e 94 58 00 	call	0xb0	; 0xb0 <MCP23S17_ByteRW>
+
+        // It should auto-increment to the "B" register, now write that
+        MCP23S17_ByteRW((uint8_t)(value & 0xFF));
+  da:	8c 2f       	mov	r24, r28
+  dc:	0e 94 58 00 	call	0xb0	; 0xb0 <MCP23S17_ByteRW>
+
+        DEASSERT_CS();
+  e0:	c4 9a       	sbi	0x18, 4	; 24
+}
+  e2:	df 91       	pop	r29
+  e4:	cf 91       	pop	r28
+  e6:	1f 91       	pop	r17
+  e8:	08 95       	ret
+
+000000ea <MCP23S17_SetDDR>:
+        // so I invert any DDR values in this driver.
+        // In other words, when you set or get the DDR through
+        // this driver, the 1s and 0s are backwards from what
+        // the MCP23S17's datasheet says, but they are
+        // consistent with the AVR. I value the consistency more.
+        MCP23S17_WriteBothRegs(MCP23S17_IODIRA, ~ddr);
+  ea:	bc 01       	movw	r22, r24
+  ec:	60 95       	com	r22
+  ee:	70 95       	com	r23
+  f0:	80 e0       	ldi	r24, 0x00	; 0
+  f2:	0e 94 5d 00 	call	0xba	; 0xba <MCP23S17_WriteBothRegs>
+  f6:	08 95       	ret
+
+000000f8 <MCP23S17_SetPins>:
+}
+
+void MCP23S17_SetPins(uint16_t data)
+{
+        MCP23S17_WriteBothRegs(MCP23S17_GPIOA, data);
+  f8:	bc 01       	movw	r22, r24
+  fa:	82 e1       	ldi	r24, 0x12	; 18
+  fc:	0e 94 5d 00 	call	0xba	; 0xba <MCP23S17_WriteBothRegs>
+ 100:	08 95       	ret
+
+00000102 <main>:
+}
+
+int main()
+{
+	
+	MCP23S17_Init();
+ 102:	0e 94 3e 00 	call	0x7c	; 0x7c <MCP23S17_Init>
+	MCP23S17_SetDDR(0xFF);
+ 106:	8f ef       	ldi	r24, 0xFF	; 255
+ 108:	90 e0       	ldi	r25, 0x00	; 0
+ 10a:	0e 94 75 00 	call	0xea	; 0xea <MCP23S17_SetDDR>
+	MCP23S17_SetPins(0xFF);
+ 10e:	8f ef       	ldi	r24, 0xFF	; 255
+ 110:	90 e0       	ldi	r25, 0x00	; 0
+ 112:	0e 94 7c 00 	call	0xf8	; 0xf8 <MCP23S17_SetPins>
 	
 	while(1)
 	{
 		
 	}
-  d4:	ff cf       	rjmp	.-2      	; 0xd4 <main+0x8>
+ 116:	ff cf       	rjmp	.-2      	; 0x116 <main+0x14>
 
-000000d6 <_exit>:
-  d6:	f8 94       	cli
+00000118 <_exit>:
+ 118:	f8 94       	cli
 
-000000d8 <__stop_program>:
-  d8:	ff cf       	rjmp	.-2      	; 0xd8 <__stop_program>
+0000011a <__stop_program>:
+ 11a:	ff cf       	rjmp	.-2      	; 0x11a <__stop_program>

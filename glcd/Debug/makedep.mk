@@ -4,7 +4,5 @@
 
 ks0108.c
 
-ks0108Test.c
-
 main.c
 

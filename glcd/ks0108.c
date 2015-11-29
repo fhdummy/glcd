@@ -431,7 +431,7 @@ void ks0108GotoXY(uint8_t x, uint8_t y) {
 	
 	cmd = LCD_SET_PAGE | ks0108Coord.page;			// set y address on both chips
 	ks0108WriteCommand(cmd, CHIP1);
-	ks0108WriteCommand(cmd, CHIP2);
+	ks0108(cmd, CHIP2);
 }
 
 void ks0108Init(uint8_t invert) {
