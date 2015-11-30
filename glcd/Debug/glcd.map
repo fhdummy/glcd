@@ -15,9 +15,9 @@ Discarded input sections
  .data          0x00000000        0x0 KS0108.o
  .bss           0x00000000        0x0 KS0108.o
  .text.GLCD_Delay
-                0x00000000        0xa KS0108.o
+                0x00000000        0xe KS0108.o
  .text.GLCD_ReadData
-                0x00000000       0x64 KS0108.o
+                0x00000000       0x6c KS0108.o
  .text.GLCD_ReadByteFromROMMemory
                 0x00000000        0x6 KS0108.o
  .text.GLCD_SetPixel
@@ -191,7 +191,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x516
+.text           0x00000000      0x534
  *(.vectors)
  .vectors       0x00000000       0x54 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega32/avr5/crtatmega32.o
                 0x00000000                __vector_default
@@ -280,39 +280,39 @@ END GROUP
                 0x00000284       0x12 KS0108.o
                 0x00000284                GLCD_DisableController
  .text.GLCD_ReadStatus
-                0x00000296       0x2e KS0108.o
+                0x00000296       0x32 KS0108.o
                 0x00000296                GLCD_ReadStatus
  .text.GLCD_WriteCommand
-                0x000002c4       0x46 KS0108.o
-                0x000002c4                GLCD_WriteCommand
+                0x000002c8       0x4a KS0108.o
+                0x000002c8                GLCD_WriteCommand
  .text.GLCD_WriteData
-                0x0000030a       0x5c KS0108.o
-                0x0000030a                GLCD_WriteData
+                0x00000312       0x60 KS0108.o
+                0x00000312                GLCD_WriteData
  .text.GLCD_InitalizePorts
-                0x00000366        0xe KS0108.o
-                0x00000366                GLCD_InitalizePorts
+                0x00000372        0xe KS0108.o
+                0x00000372                GLCD_InitalizePorts
  .text.GLCD_Initalize
-                0x00000374       0x1e KS0108.o
-                0x00000374                GLCD_Initalize
+                0x00000380       0x1e KS0108.o
+                0x00000380                GLCD_Initalize
  .text.GLCD_GoTo
-                0x00000392       0x6a KS0108.o
-                0x00000392                GLCD_GoTo
+                0x0000039e       0x6a KS0108.o
+                0x0000039e                GLCD_GoTo
  .text.GLCD_ClearScreen
-                0x000003fc       0x28 KS0108.o
-                0x000003fc                GLCD_ClearScreen
+                0x00000408       0x28 KS0108.o
+                0x00000408                GLCD_ClearScreen
  .text.GLCD_WriteChar
-                0x00000424       0x46 KS0108.o
-                0x00000424                GLCD_WriteChar
+                0x00000430       0x46 KS0108.o
+                0x00000430                GLCD_WriteChar
  .text.GLCD_WriteString
-                0x0000046a       0x1e KS0108.o
-                0x0000046a                GLCD_WriteString
- .text.main     0x00000488       0x8a main.o
-                0x00000488                main
-                0x00000512                . = ALIGN (0x2)
+                0x00000476       0x1e KS0108.o
+                0x00000476                GLCD_WriteString
+ .text.main     0x00000494       0x9c main.o
+                0x00000494                main
+                0x00000530                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000512        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
-                0x00000512                _exit
-                0x00000512                exit
+ .fini9         0x00000530        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
+                0x00000530                _exit
+                0x00000530                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -331,11 +331,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000512        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000530        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000516                _etext = .
+                0x00000534                _etext = .
 
-.data           0x00800060       0x6a load address 0x00000516
+.data           0x00800060       0x6a load address 0x00000534
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -359,8 +359,8 @@ END GROUP
                 0x008000cb                screen_x
  *(COMMON)
                 0x008000cc                PROVIDE (__bss_end, .)
-                0x00000516                __data_load_start = LOADADDR (.data)
-                0x00000580                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000534                __data_load_start = LOADADDR (.data)
+                0x0000059e                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x008000cc        0x0
                 0x008000cc                PROVIDE (__noinit_start, .)
@@ -442,32 +442,32 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xd16
+.debug_info     0x00000000      0xda2
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x890 KS0108.o
- .debug_info    0x00000890      0x486 main.o
+ .debug_info    0x00000000      0x896 KS0108.o
+ .debug_info    0x00000896      0x50c main.o
 
-.debug_abbrev   0x00000000      0x302
+.debug_abbrev   0x00000000      0x380
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x231 KS0108.o
- .debug_abbrev  0x00000231       0xd1 main.o
+ .debug_abbrev  0x00000231      0x14f main.o
 
-.debug_line     0x00000000      0x30f
+.debug_line     0x00000000      0x420
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x2a7 KS0108.o
- .debug_line    0x000002a7       0x68 main.o
+ .debug_line    0x000002a7      0x179 main.o
 
 .debug_frame    0x00000000      0x1a0
  *(.debug_frame)
  .debug_frame   0x00000000      0x17c KS0108.o
  .debug_frame   0x0000017c       0x24 main.o
 
-.debug_str      0x00000000      0x317
+.debug_str      0x00000000      0x326
  *(.debug_str)
  .debug_str     0x00000000      0x306 KS0108.o
                                 0x33f (size before relaxing)
- .debug_str     0x00000306       0x11 main.o
-                                0x1ad (size before relaxing)
+ .debug_str     0x00000306       0x20 main.o
+                                0x1f8 (size before relaxing)
 
 .debug_loc      0x00000000      0x5f3
  *(.debug_loc)

@@ -14,28 +14,28 @@
 int main()
 {	
 	GLCD_Initalize();
-	GLCD_ClearScreen();
-	
-	GLCD_GoTo(0,0);
-	GLCD_WriteString(" #   #######  ######");
-	GLCD_GoTo(0,1);
-	GLCD_WriteString(" #      #     #     ");
-	GLCD_GoTo(0,2);
-	GLCD_WriteString(" #      #     #     ");
-	GLCD_GoTo(0,3);
-	GLCD_WriteString(" #      #     #_____");
-	GLCD_GoTo(0,4);
-	GLCD_WriteString(" #      #          #");
-	GLCD_GoTo(0,5);
-	GLCD_WriteString(" #      #          #");
-	GLCD_GoTo(0,6);
-	GLCD_WriteString(" #      #          #");
-	GLCD_GoTo(0,7);
-	GLCD_WriteString(" #      #     ######");
 	
 	while(1)
 	{
+		GLCD_ClearScreen();
+		GLCD_GoTo(0,0);
+		GLCD_WriteString(" #   #######  ######");
+		GLCD_GoTo(0,1);
+		GLCD_WriteString(" #      #     #     ");
+		GLCD_GoTo(0,2);
+		GLCD_WriteString(" #      #     #     ");
+		GLCD_GoTo(0,3);
+		GLCD_WriteString(" #      #     #_____");
+		GLCD_GoTo(0,4);
+		GLCD_WriteString(" #      #          #");
+		GLCD_GoTo(0,5);
+		GLCD_WriteString(" #      #          #");
+		GLCD_GoTo(0,6);
+		GLCD_WriteString(" #      #          #");
+		GLCD_GoTo(0,7);
+		GLCD_WriteString(" #      #     ######");
 		
+		_delay_ms(1000);
 	}
 	
 	return 0;

@@ -10,17 +10,17 @@
 #define CTRL_PORT	PORTB
 #define CTRL_DIR	DDRB
 
-#define GLCD_RS			(1 << 2)	//PB2
-#define GLCD_RW			(1 << 1)	//PB1
-#define GLCD_EN			(1 << 0)	//PB0
+#define GLCD_RS		(1 << 2)	//PB2
+#define GLCD_RW		(1 << 1)	//PB1
+#define GLCD_EN		(1 << 0)	//PB0
+#define GLCD_CS1	(1 << 6)	//PB6
+#define GLCD_CS2	(1 << 5)	//PB5
 
-#define GLCD_CS1			(1 << 6)	//PB6
-#define GLCD_CS2			(1 << 5)	//PB5
-
-#define GLCD_SCREEN_WIDTH		128
+/* Define screen properties */
+#define GLCD_SCREEN_WIDTH	128
 #define GLCD_SCREEN_HEIGHT	64
 
-
+/* Define specific commands */
 #define DISPLAY_SET_Y       0x40
 #define DISPLAY_SET_X       0xB8
 #define DISPLAY_START_LINE  0xC0
@@ -28,6 +28,9 @@
   #define ON	0x01
   #define OFF	0x00
 #define DISPLAY_STATUS_BUSY	0x80
+
+/* Define the speed of the ticker in µs */
+#define TICKER_SPEED 800
 
 extern unsigned char screen_x;
 extern unsigned char screen_y;

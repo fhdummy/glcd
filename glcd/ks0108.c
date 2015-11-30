@@ -13,7 +13,7 @@ unsigned char screen_x = 0, screen_y = 0;
 /* Delay function */
 void GLCD_Delay(void)
 {
-	_delay_us(1);
+	_delay_us(TICKER_SPEED);
 }
 
 /* Enable controller */
