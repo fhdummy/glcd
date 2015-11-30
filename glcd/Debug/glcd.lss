@@ -786,8 +786,8 @@ void GLCD_WriteString(char * stringToWrite)
  486:	08 95       	ret
 
 00000488 <main>:
+#include "KS0108.h"
 #include "font5x8.h"
-#include "graphic.h"
 
 int main()
 {	

@@ -1,3 +1,6 @@
+#ifndef	FONT5X8_H
+#define FONT5X8_H
+
 #ifdef __AVR__
   #include <avr/pgmspace.h>
   static const char PROGMEM font5x8[] = {
@@ -101,4 +104,5 @@
 0x08, 0x08, 0x2A, 0x1C, 0x08,// ->
 0x08, 0x1C, 0x2A, 0x08, 0x08 // <-
 };
-//
+
+#endif

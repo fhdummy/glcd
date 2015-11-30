@@ -3,7 +3,7 @@ Archive member included to satisfy reference by file (symbol)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
                               C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega32/avr5/crtatmega32.o (exit)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_copy_data.o)
-                              graphic.o (__do_copy_data)
+                              main.o (__do_copy_data)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_clear_bss.o)
                               KS0108.o (__do_clear_bss)
 
@@ -11,26 +11,6 @@ Discarded input sections
 
  .data          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega32/avr5/crtatmega32.o
  .bss           0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega32/avr5/crtatmega32.o
- .text          0x00000000        0x0 graphic.o
- .data          0x00000000        0x0 graphic.o
- .bss           0x00000000        0x0 graphic.o
- .text.GLCD_Rectangle
-                0x00000000       0x78 graphic.o
- .text.GLCD_Circle
-                0x00000000      0x10c graphic.o
- .text.GLCD_Line
-                0x00000000      0x140 graphic.o
- .rodata.color  0x00000000        0x1 graphic.o
- .debug_info    0x00000000      0x400 graphic.o
- .debug_abbrev  0x00000000       0xd6 graphic.o
- .debug_loc     0x00000000      0x81d graphic.o
- .debug_aranges
-                0x00000000       0x30 graphic.o
- .debug_ranges  0x00000000       0x20 graphic.o
- .debug_line    0x00000000       0xc6 graphic.o
- .debug_str     0x00000000      0x1be graphic.o
- .comment       0x00000000       0x31 graphic.o
- .debug_frame   0x00000000      0x114 graphic.o
  .text          0x00000000        0x0 KS0108.o
  .data          0x00000000        0x0 KS0108.o
  .bss           0x00000000        0x0 KS0108.o
@@ -109,7 +89,6 @@ user_signatures  0x00850000         0x00000400         rw !x
 Linker script and memory map
 
 LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega32/avr5/crtatmega32.o
-LOAD graphic.o
 LOAD KS0108.o
 LOAD main.o
 START GROUP

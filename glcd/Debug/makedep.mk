@@ -2,8 +2,6 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
-graphic.c
-
 KS0108.c
 
 main.c

@@ -141,12 +141,6 @@
     <Compile Include="font5x8.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="graphic.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="graphic.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="KS0108.c">
       <SubType>compile</SubType>
     </Compile>
