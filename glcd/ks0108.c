@@ -10,38 +10,31 @@
 
 unsigned char screen_x = 0, screen_y = 0;
 
-//-------------------------------------------------------------------------------------------------
-// Delay function
-//-------------------------------------------------------------------------------------------------
+/* Delay function */
 void GLCD_Delay(void)
 {
 	_delay_us(1);
 }
-//-------------------------------------------------------------------------------------------------
-// Enalbe Controller (0-2)
-//-------------------------------------------------------------------------------------------------
+
+/* Enable controller */
 void GLCD_EnableController(unsigned char controller)
 {
 switch(controller){
 	case 0 : CTRL_PORT &= ~GLCD_CS1; break;
 	case 1 : CTRL_PORT &= ~GLCD_CS2; break;
-	case 2 : CTRL_PORT &= ~GLCD_CS3; break;
 	}
 }
-//-------------------------------------------------------------------------------------------------
-// Disable Controller (0-2)
-//-------------------------------------------------------------------------------------------------
+
+/* Disable controller */
 void GLCD_DisableController(unsigned char controller)
 {
 switch(controller){
 	case 0 : CTRL_PORT |= GLCD_CS1; break;
 	case 1 : CTRL_PORT |= GLCD_CS2; break;
-	case 2 : CTRL_PORT |= GLCD_CS3; break;
 	}
 }
-//-------------------------------------------------------------------------------------------------
-// Read Status from specified controller (0-2)
-//-------------------------------------------------------------------------------------------------
+
+/* Read status from controller */
 unsigned char GLCD_ReadStatus(unsigned char controller)
 {
 	unsigned char status;
@@ -57,9 +50,8 @@ unsigned char GLCD_ReadStatus(unsigned char controller)
 	GLCD_DisableController(controller);
 	return status;
 }
-//-------------------------------------------------------------------------------------------------
-// Write command to specified controller
-//-------------------------------------------------------------------------------------------------
+
+/* Write command to controller */
 void GLCD_WriteCommand(unsigned char commandToWrite, unsigned char controller)
 {
 	char t = GLCD_ReadStatus(controller);
@@ -76,9 +68,8 @@ void GLCD_WriteCommand(unsigned char commandToWrite, unsigned char controller)
 	CTRL_PORT &= ~GLCD_EN;
 	GLCD_DisableController(controller);
 }
-//-------------------------------------------------------------------------------------------------
-// Read data from current position
-//-------------------------------------------------------------------------------------------------
+
+/* Read data from current position */
 unsigned char GLCD_ReadData(void)
 {
 	unsigned char data;
@@ -95,9 +86,8 @@ unsigned char GLCD_ReadData(void)
 	screen_x++;
 	return data;
 }
-//-------------------------------------------------------------------------------------------------
-// Write data to current position
-//-------------------------------------------------------------------------------------------------
+
+/* Write data to current position */
 void GLCD_WriteData(unsigned char dataToWrite)
 {
 	while(GLCD_ReadStatus(screen_x / 64)&DISPLAY_STATUS_BUSY);
@@ -112,17 +102,14 @@ void GLCD_WriteData(unsigned char dataToWrite)
 	GLCD_DisableController(screen_x / 64);
 	screen_x++;
 }
-//-------------------------------------------------------------------------------------------------
-//
-//-------------------------------------------------------------------------------------------------
+
+/* Initialize the ports, specified in KS0108.h */
 void GLCD_InitalizePorts(void)
 {
-	CTRL_DIR |= (GLCD_CS1 | GLCD_CS2 | GLCD_CS3 | GLCD_RS | GLCD_RW | GLCD_EN);
-	CTRL_PORT |= (GLCD_CS1 | GLCD_CS2 | GLCD_CS3);
+	CTRL_DIR |= (GLCD_CS1 | GLCD_CS2 | GLCD_RS | GLCD_RW | GLCD_EN);
+	CTRL_PORT |= (GLCD_CS1 | GLCD_CS2);
 }
-//-------------------------------------------------------------------------------------------------
-//
-//-------------------------------------------------------------------------------------------------
+
 unsigned char GLCD_ReadByteFromROMMemory(char * ptr)
 {
 	return pgm_read_byte(ptr);

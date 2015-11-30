@@ -16,7 +16,6 @@
 
 #define GLCD_CS1			(1 << 6)	//PB6
 #define GLCD_CS2			(1 << 5)	//PB5
-#define GLCD_CS3			(1 << 7)	//PB7
 
 #define GLCD_SCREEN_WIDTH		128
 #define GLCD_SCREEN_HEIGHT	64
@@ -34,15 +33,20 @@ extern unsigned char screen_x;
 extern unsigned char screen_y;
 
 void GLCD_Delay(void);
-void GLCD_Initalize(void);
-void GLCD_WriteData(unsigned char);
+void GLCD_EnableController(unsigned char);
+void GLCD_DisableController(unsigned char);
+unsigned char GLCD_ReadStatus(unsigned char);
 void GLCD_WriteCommand(unsigned char, unsigned char);
-void GLCD_ClearScreen(void);
-void GLCD_GoTo(unsigned char, unsigned char);
-void GLCD_WriteString(char *);
-unsigned char GLCD_ReadByteFromROMMemory(char *);
 unsigned char GLCD_ReadData(void);
-void GLCD_Bitmap(char *, unsigned char, unsigned char, unsigned char, unsigned char);
+void GLCD_WriteData(unsigned char);
+void GLCD_InitalizePorts(void);
+unsigned char GLCD_ReadByteFromROMMemory(char *);
+void GLCD_Initalize(void);
+void GLCD_GoTo(unsigned char, unsigned char);
+void GLCD_ClearScreen(void);
+void GLCD_WriteChar(char);
+void GLCD_WriteString(char *);
+void GLCD_SetPixel(unsigned char, unsigned char, unsigned char);
 
 #endif
 
