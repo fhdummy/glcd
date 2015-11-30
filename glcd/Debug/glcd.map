@@ -387,38 +387,39 @@ END GROUP
  *(.fini0)
                 0x00000518                _etext = .
 
-.data           0x00800060       0x9a load address 0x00000518
+.data           0x00800060       0x6a load address 0x00000518
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
  *(.rodata)
  *(.rodata*)
  .rodata.str1.1
-                0x00800060       0x9a main.o
+                0x00800060       0x69 main.o
  *(.gnu.linkonce.d*)
-                0x008000fa                . = ALIGN (0x2)
-                0x008000fa                _edata = .
-                0x008000fa                PROVIDE (__data_end, .)
+                0x008000ca                . = ALIGN (0x2)
+ *fill*         0x008000c9        0x1 
+                0x008000ca                _edata = .
+                0x008000ca                PROVIDE (__data_end, .)
 
-.bss            0x008000fa        0x2
-                0x008000fa                PROVIDE (__bss_start, .)
+.bss            0x008000ca        0x2
+                0x008000ca                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
- .bss.screen_y  0x008000fa        0x1 KS0108.o
-                0x008000fa                screen_y
- .bss.screen_x  0x008000fb        0x1 KS0108.o
-                0x008000fb                screen_x
+ .bss.screen_y  0x008000ca        0x1 KS0108.o
+                0x008000ca                screen_y
+ .bss.screen_x  0x008000cb        0x1 KS0108.o
+                0x008000cb                screen_x
  *(COMMON)
-                0x008000fc                PROVIDE (__bss_end, .)
+                0x008000cc                PROVIDE (__bss_end, .)
                 0x00000518                __data_load_start = LOADADDR (.data)
-                0x000005b2                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000582                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x008000fc        0x0
-                0x008000fc                PROVIDE (__noinit_start, .)
+.noinit         0x008000cc        0x0
+                0x008000cc                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x008000fc                PROVIDE (__noinit_end, .)
-                0x008000fc                _end = .
-                0x008000fc                PROVIDE (__heap_start, .)
+                0x008000cc                PROVIDE (__noinit_end, .)
+                0x008000cc                _end = .
+                0x008000cc                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -508,11 +509,11 @@ END GROUP
  .debug_abbrev  0x00000199      0x151 KS0108.o
  .debug_abbrev  0x000002ea      0x204 main.o
 
-.debug_line     0x00000000      0x48a
+.debug_line     0x00000000      0x48c
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x176 KS0108-AVR.o
  .debug_line    0x00000176       0xff KS0108.o
- .debug_line    0x00000275      0x215 main.o
+ .debug_line    0x00000275      0x217 main.o
 
 .debug_frame    0x00000000      0x2cc
  *(.debug_frame)

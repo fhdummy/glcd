@@ -247,7 +247,7 @@ int main()
 	GLCD_Initalize();
 	GLCD_ClearScreen();
 
-	GLCD_GoTo(0,0);
+	/*GLCD_GoTo(0,0);
 	GLCD_WriteString("+-------------------+");
 	GLCD_GoTo(0,1);
 	GLCD_WriteString("|     #MICisGAY     |");
@@ -262,7 +262,27 @@ int main()
 	GLCD_GoTo(0,6);
 	GLCD_WriteString("|  microcontrollers |");
 	GLCD_GoTo(0,7);
-	GLCD_WriteString("+-------------------+");
+	GLCD_WriteString("+-------------------+");*/
+	
+	
+	GLCD_GoTo(0,0);
+	GLCD_WriteString(" #   #######  ######");
+	GLCD_GoTo(0,1);
+	GLCD_WriteString(" #      #     #     ");
+	GLCD_GoTo(0,2);
+	GLCD_WriteString(" #      #     #     ");
+	GLCD_GoTo(0,3);
+	GLCD_WriteString(" #      #     #_____");
+	GLCD_GoTo(0,4);
+	GLCD_WriteString(" #      #          #");
+	GLCD_GoTo(0,5);
+	GLCD_WriteString(" #      #          #");
+	GLCD_GoTo(0,6);
+	GLCD_WriteString(" #      #          #");
+	GLCD_GoTo(0,7);
+	GLCD_WriteString(" #      #     ######");
+	
+	
 	
 	while(1)
 	{

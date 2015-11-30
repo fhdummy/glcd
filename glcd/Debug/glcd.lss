@@ -5,29 +5,29 @@ Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
   0 .text         00000518  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         0000009a  00800060  00000518  000005ac  2**0
+  1 .data         0000006a  00800060  00000518  000005ac  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000002  008000fa  008000fa  00000646  2**0
+  2 .bss          00000002  008000ca  008000ca  00000616  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000646  2**0
+  3 .comment      00000030  00000000  00000000  00000616  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000678  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000648  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000128  00000000  00000000  000006b4  2**0
+  5 .debug_aranges 00000128  00000000  00000000  00000684  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00001042  00000000  00000000  000007dc  2**0
+  6 .debug_info   00001042  00000000  00000000  000007ac  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000004ee  00000000  00000000  0000181e  2**0
+  7 .debug_abbrev 000004ee  00000000  00000000  000017ee  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0000048a  00000000  00000000  00001d0c  2**0
+  8 .debug_line   0000048c  00000000  00000000  00001cdc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000002cc  00000000  00000000  00002198  2**2
+  9 .debug_frame  000002cc  00000000  00000000  00002168  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000433  00000000  00000000  00002464  2**0
+ 10 .debug_str    00000433  00000000  00000000  00002434  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000009e2  00000000  00000000  00002897  2**0
+ 11 .debug_loc    000009e2  00000000  00000000  00002867  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000f8  00000000  00000000  00003279  2**0
+ 12 .debug_ranges 000000f8  00000000  00000000  00003249  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -314,13 +314,13 @@ Disassembly of section .text:
  24a:	02 c0       	rjmp	.+4      	; 0x250 <__do_copy_data+0x10>
  24c:	05 90       	lpm	r0, Z+
  24e:	0d 92       	st	X+, r0
- 250:	aa 3f       	cpi	r26, 0xFA	; 250
+ 250:	aa 3c       	cpi	r26, 0xCA	; 202
  252:	b1 07       	cpc	r27, r17
  254:	d9 f7       	brne	.-10     	; 0x24c <__do_copy_data+0xc>
 
 00000256 <__do_clear_bss>:
  256:	20 e0       	ldi	r18, 0x00	; 0
- 258:	aa ef       	ldi	r26, 0xFA	; 250
+ 258:	aa ec       	ldi	r26, 0xCA	; 202
  25a:	b0 e0       	ldi	r27, 0x00	; 0
  25c:	01 c0       	rjmp	.+2      	; 0x260 <.do_clear_bss_start>
 
@@ -328,7 +328,7 @@ Disassembly of section .text:
  25e:	1d 92       	st	X+, r1
 
 00000260 <.do_clear_bss_start>:
- 260:	ac 3f       	cpi	r26, 0xFC	; 252
+ 260:	ac 3c       	cpi	r26, 0xCC	; 204
  262:	b2 07       	cpc	r27, r18
  264:	e1 f7       	brne	.-8      	; 0x25e <.do_clear_bss_loop>
  266:	0e 94 45 02 	call	0x48a	; 0x48a <main>
@@ -350,13 +350,13 @@ switch(controller){
  278:	82 30       	cpi	r24, 0x02	; 2
  27a:	29 f0       	breq	.+10     	; 0x286 <GLCD_EnableController+0x14>
  27c:	08 95       	ret
-	case 0 : KS0108_CTRL_PORT &= ~KS0108_CS1; break;
+	case 0 : CTRL_PORT &= ~KS0108_CS1; break;
  27e:	c6 98       	cbi	0x18, 6	; 24
  280:	08 95       	ret
-	case 1 : KS0108_CTRL_PORT &= ~KS0108_CS2; break;
+	case 1 : CTRL_PORT &= ~KS0108_CS2; break;
  282:	c5 98       	cbi	0x18, 5	; 24
  284:	08 95       	ret
-	case 2 : KS0108_CTRL_PORT &= ~KS0108_CS3; break;
+	case 2 : CTRL_PORT &= ~KS0108_CS3; break;
  286:	c7 98       	cbi	0x18, 7	; 24
  288:	08 95       	ret
 
@@ -373,13 +373,13 @@ switch(controller){
  290:	82 30       	cpi	r24, 0x02	; 2
  292:	29 f0       	breq	.+10     	; 0x29e <GLCD_DisableController+0x14>
  294:	08 95       	ret
-	case 0 : KS0108_CTRL_PORT |= KS0108_CS1; break;
+	case 0 : CTRL_PORT |= KS0108_CS1; break;
  296:	c6 9a       	sbi	0x18, 6	; 24
  298:	08 95       	ret
-	case 1 : KS0108_CTRL_PORT |= KS0108_CS2; break;
+	case 1 : CTRL_PORT |= KS0108_CS2; break;
  29a:	c5 9a       	sbi	0x18, 5	; 24
  29c:	08 95       	ret
-	case 2 : KS0108_CTRL_PORT |= KS0108_CS3; break;
+	case 2 : CTRL_PORT |= KS0108_CS3; break;
  29e:	c7 9a       	sbi	0x18, 7	; 24
  2a0:	08 95       	ret
 
@@ -398,13 +398,13 @@ KS0108_DATA_DIR = 0x00;
  2a8:	11 ba       	out	0x11, r1	; 17
 KS0108_DATA_PORT = 0x00;
  2aa:	12 ba       	out	0x12, r1	; 18
-KS0108_CTRL_PORT |= KS0108_RW;
+CTRL_PORT |= KS0108_RW;
  2ac:	c1 9a       	sbi	0x18, 1	; 24
-KS0108_CTRL_PORT &= ~KS0108_RS;
+CTRL_PORT &= ~KS0108_RS;
  2ae:	c2 98       	cbi	0x18, 2	; 24
 GLCD_EnableController(controller);
  2b0:	0e 94 39 01 	call	0x272	; 0x272 <GLCD_EnableController>
-KS0108_CTRL_PORT |= KS0108_EN;
+CTRL_PORT |= KS0108_EN;
  2b4:	c0 9a       	sbi	0x18, 0	; 24
 // Delay function
 //-------------------------------------------------------------------------------------------------
@@ -413,14 +413,14 @@ void GLCD_Delay(void)
 
 	asm("nop");
  2b6:	00 00       	nop
-KS0108_CTRL_PORT |= KS0108_RW;
-KS0108_CTRL_PORT &= ~KS0108_RS;
+CTRL_PORT |= KS0108_RW;
+CTRL_PORT &= ~KS0108_RS;
 GLCD_EnableController(controller);
-KS0108_CTRL_PORT |= KS0108_EN;
+CTRL_PORT |= KS0108_EN;
 GLCD_Delay();
 status = KS0108_DATA_PIN;
  2b8:	d0 b3       	in	r29, 0x10	; 16
-KS0108_CTRL_PORT &= ~KS0108_EN;
+CTRL_PORT &= ~KS0108_EN;
  2ba:	c0 98       	cbi	0x18, 0	; 24
 GLCD_DisableController(controller);
  2bc:	8c 2f       	mov	r24, r28
@@ -464,7 +464,7 @@ while(t&DISPLAY_STATUS_BUSY){
 KS0108_DATA_DIR = 0xFF;
  2e6:	8f ef       	ldi	r24, 0xFF	; 255
  2e8:	81 bb       	out	0x11, r24	; 17
-KS0108_CTRL_PORT &= ~(KS0108_RW | KS0108_RS);
+CTRL_PORT &= ~(KS0108_RW | KS0108_RS);
  2ea:	98 b3       	in	r25, 0x18	; 24
  2ec:	99 7f       	andi	r25, 0xF9	; 249
  2ee:	98 bb       	out	0x18, r25	; 24
@@ -473,7 +473,7 @@ GLCD_EnableController(controller);
  2f2:	0e 94 39 01 	call	0x272	; 0x272 <GLCD_EnableController>
 KS0108_DATA_PORT = commandToWrite;
  2f6:	d2 bb       	out	0x12, r29	; 18
-KS0108_CTRL_PORT |= KS0108_EN;
+CTRL_PORT |= KS0108_EN;
  2f8:	c0 9a       	sbi	0x18, 0	; 24
 // Delay function
 //-------------------------------------------------------------------------------------------------
@@ -482,12 +482,12 @@ void GLCD_Delay(void)
 
 	asm("nop");
  2fa:	00 00       	nop
-KS0108_CTRL_PORT &= ~(KS0108_RW | KS0108_RS);
+CTRL_PORT &= ~(KS0108_RW | KS0108_RS);
 GLCD_EnableController(controller);
 KS0108_DATA_PORT = commandToWrite;
-KS0108_CTRL_PORT |= KS0108_EN;
+CTRL_PORT |= KS0108_EN;
 GLCD_Delay();
-KS0108_CTRL_PORT &= ~KS0108_EN;
+CTRL_PORT &= ~KS0108_EN;
  2fc:	c0 98       	cbi	0x18, 0	; 24
 GLCD_DisableController(controller);
  2fe:	8c 2f       	mov	r24, r28
@@ -507,7 +507,7 @@ void GLCD_WriteData(unsigned char dataToWrite)
  30a:	cf 93       	push	r28
  30c:	c8 2f       	mov	r28, r24
 while(GLCD_ReadStatus(screen_x / 64)&DISPLAY_STATUS_BUSY);
- 30e:	80 91 fb 00 	lds	r24, 0x00FB
+ 30e:	80 91 cb 00 	lds	r24, 0x00CB
  312:	82 95       	swap	r24
  314:	86 95       	lsr	r24
  316:	86 95       	lsr	r24
@@ -518,20 +518,20 @@ while(GLCD_ReadStatus(screen_x / 64)&DISPLAY_STATUS_BUSY);
 KS0108_DATA_DIR = 0xFF;
  322:	8f ef       	ldi	r24, 0xFF	; 255
  324:	81 bb       	out	0x11, r24	; 17
-KS0108_CTRL_PORT &= ~KS0108_RW;
+CTRL_PORT &= ~KS0108_RW;
  326:	c1 98       	cbi	0x18, 1	; 24
-KS0108_CTRL_PORT |= KS0108_RS;
+CTRL_PORT |= KS0108_RS;
  328:	c2 9a       	sbi	0x18, 2	; 24
 KS0108_DATA_PORT = dataToWrite;
  32a:	c2 bb       	out	0x12, r28	; 18
 GLCD_EnableController(screen_x / 64);
- 32c:	80 91 fb 00 	lds	r24, 0x00FB
+ 32c:	80 91 cb 00 	lds	r24, 0x00CB
  330:	82 95       	swap	r24
  332:	86 95       	lsr	r24
  334:	86 95       	lsr	r24
  336:	83 70       	andi	r24, 0x03	; 3
  338:	0e 94 39 01 	call	0x272	; 0x272 <GLCD_EnableController>
-KS0108_CTRL_PORT |= KS0108_EN;
+CTRL_PORT |= KS0108_EN;
  33c:	c0 9a       	sbi	0x18, 0	; 24
 // Delay function
 //-------------------------------------------------------------------------------------------------
@@ -540,24 +540,24 @@ void GLCD_Delay(void)
 
 	asm("nop");
  33e:	00 00       	nop
-KS0108_CTRL_PORT |= KS0108_RS;
+CTRL_PORT |= KS0108_RS;
 KS0108_DATA_PORT = dataToWrite;
 GLCD_EnableController(screen_x / 64);
-KS0108_CTRL_PORT |= KS0108_EN;
+CTRL_PORT |= KS0108_EN;
 GLCD_Delay();
-KS0108_CTRL_PORT &= ~KS0108_EN;
+CTRL_PORT &= ~KS0108_EN;
  340:	c0 98       	cbi	0x18, 0	; 24
 GLCD_DisableController(screen_x / 64);
- 342:	80 91 fb 00 	lds	r24, 0x00FB
+ 342:	80 91 cb 00 	lds	r24, 0x00CB
  346:	82 95       	swap	r24
  348:	86 95       	lsr	r24
  34a:	86 95       	lsr	r24
  34c:	83 70       	andi	r24, 0x03	; 3
  34e:	0e 94 45 01 	call	0x28a	; 0x28a <GLCD_DisableController>
 screen_x++;
- 352:	80 91 fb 00 	lds	r24, 0x00FB
+ 352:	80 91 cb 00 	lds	r24, 0x00CB
  356:	8f 5f       	subi	r24, 0xFF	; 255
- 358:	80 93 fb 00 	sts	0x00FB, r24
+ 358:	80 93 cb 00 	sts	0x00CB, r24
 }
  35c:	cf 91       	pop	r28
  35e:	08 95       	ret
@@ -568,11 +568,11 @@ screen_x++;
 //-------------------------------------------------------------------------------------------------
 void GLCD_InitalizePorts(void)
 {
-KS0108_CTRL_DIR |= (KS0108_CS1 | KS0108_CS2 | KS0108_CS3 | KS0108_RS | KS0108_RW | KS0108_EN);
+CTRL_DIR |= (KS0108_CS1 | KS0108_CS2 | KS0108_CS3 | KS0108_RS | KS0108_RW | KS0108_EN);
  360:	87 b3       	in	r24, 0x17	; 23
  362:	87 6e       	ori	r24, 0xE7	; 231
  364:	87 bb       	out	0x17, r24	; 23
-KS0108_CTRL_PORT |= (KS0108_CS1 | KS0108_CS2 | KS0108_CS3);
+CTRL_PORT |= (KS0108_CS1 | KS0108_CS2 | KS0108_CS3);
  366:	88 b3       	in	r24, 0x18	; 24
  368:	80 6e       	ori	r24, 0xE0	; 224
  36a:	88 bb       	out	0x18, r24	; 24
@@ -625,9 +625,9 @@ void GLCD_GoTo(unsigned char x, unsigned char y)
  39a:	c6 2f       	mov	r28, r22
 unsigned char i;
 screen_x = x;
- 39c:	80 93 fb 00 	sts	0x00FB, r24
+ 39c:	80 93 cb 00 	sts	0x00CB, r24
 screen_y = y;
- 3a0:	60 93 fa 00 	sts	0x00FA, r22
+ 3a0:	60 93 ca 00 	sts	0x00CA, r22
 
 for(i = 0; i < KS0108_SCREEN_WIDTH/64; i++)
   {
@@ -826,12 +826,16 @@ while(*stringToWrite)
  48a:	0e 94 ba 01 	call	0x374	; 0x374 <GLCD_Initalize>
 	GLCD_ClearScreen();
  48e:	0e 94 fe 01 	call	0x3fc	; 0x3fc <GLCD_ClearScreen>
-
+	GLCD_WriteString("|  microcontrollers |");
+	GLCD_GoTo(0,7);
+	GLCD_WriteString("+-------------------+");*/
+	
+	
 	GLCD_GoTo(0,0);
  492:	60 e0       	ldi	r22, 0x00	; 0
  494:	80 e0       	ldi	r24, 0x00	; 0
  496:	0e 94 c9 01 	call	0x392	; 0x392 <GLCD_GoTo>
-	GLCD_WriteString("+-------------------+");
+	GLCD_WriteString(" #   #######  ######");
  49a:	80 e6       	ldi	r24, 0x60	; 96
  49c:	90 e0       	ldi	r25, 0x00	; 0
  49e:	0e 94 36 02 	call	0x46c	; 0x46c <GLCD_WriteString>
@@ -839,58 +843,59 @@ while(*stringToWrite)
  4a2:	61 e0       	ldi	r22, 0x01	; 1
  4a4:	80 e0       	ldi	r24, 0x00	; 0
  4a6:	0e 94 c9 01 	call	0x392	; 0x392 <GLCD_GoTo>
-	GLCD_WriteString("|     #MICisGAY     |");
- 4aa:	86 e7       	ldi	r24, 0x76	; 118
+	GLCD_WriteString(" #      #     #     ");
+ 4aa:	85 e7       	ldi	r24, 0x75	; 117
  4ac:	90 e0       	ldi	r25, 0x00	; 0
  4ae:	0e 94 36 02 	call	0x46c	; 0x46c <GLCD_WriteString>
 	GLCD_GoTo(0,2);
  4b2:	62 e0       	ldi	r22, 0x02	; 2
  4b4:	80 e0       	ldi	r24, 0x00	; 0
  4b6:	0e 94 c9 01 	call	0x392	; 0x392 <GLCD_GoTo>
-	GLCD_WriteString("|   KS0108 library  |");
- 4ba:	8c e8       	ldi	r24, 0x8C	; 140
+	GLCD_WriteString(" #      #     #     ");
+ 4ba:	85 e7       	ldi	r24, 0x75	; 117
  4bc:	90 e0       	ldi	r25, 0x00	; 0
  4be:	0e 94 36 02 	call	0x46c	; 0x46c <GLCD_WriteString>
 	GLCD_GoTo(0,3);
  4c2:	63 e0       	ldi	r22, 0x03	; 3
  4c4:	80 e0       	ldi	r24, 0x00	; 0
  4c6:	0e 94 c9 01 	call	0x392	; 0x392 <GLCD_GoTo>
-	GLCD_WriteString("|                   |");
- 4ca:	82 ea       	ldi	r24, 0xA2	; 162
+	GLCD_WriteString(" #      #     #_____");
+ 4ca:	8a e8       	ldi	r24, 0x8A	; 138
  4cc:	90 e0       	ldi	r25, 0x00	; 0
  4ce:	0e 94 36 02 	call	0x46c	; 0x46c <GLCD_WriteString>
 	GLCD_GoTo(0,4);
  4d2:	64 e0       	ldi	r22, 0x04	; 4
  4d4:	80 e0       	ldi	r24, 0x00	; 0
  4d6:	0e 94 c9 01 	call	0x392	; 0x392 <GLCD_GoTo>
-	GLCD_WriteString("|  en.radzio.dxp.pl |");
- 4da:	88 eb       	ldi	r24, 0xB8	; 184
+	GLCD_WriteString(" #      #          #");
+ 4da:	8f e9       	ldi	r24, 0x9F	; 159
  4dc:	90 e0       	ldi	r25, 0x00	; 0
  4de:	0e 94 36 02 	call	0x46c	; 0x46c <GLCD_WriteString>
 	GLCD_GoTo(0,5);
  4e2:	65 e0       	ldi	r22, 0x05	; 5
  4e4:	80 e0       	ldi	r24, 0x00	; 0
  4e6:	0e 94 c9 01 	call	0x392	; 0x392 <GLCD_GoTo>
-	GLCD_WriteString("|  STM32 Cortex-M3  |");
- 4ea:	8e ec       	ldi	r24, 0xCE	; 206
+	GLCD_WriteString(" #      #          #");
+ 4ea:	8f e9       	ldi	r24, 0x9F	; 159
  4ec:	90 e0       	ldi	r25, 0x00	; 0
  4ee:	0e 94 36 02 	call	0x46c	; 0x46c <GLCD_WriteString>
 	GLCD_GoTo(0,6);
  4f2:	66 e0       	ldi	r22, 0x06	; 6
  4f4:	80 e0       	ldi	r24, 0x00	; 0
  4f6:	0e 94 c9 01 	call	0x392	; 0x392 <GLCD_GoTo>
-	GLCD_WriteString("|  microcontrollers |");
- 4fa:	84 ee       	ldi	r24, 0xE4	; 228
+	GLCD_WriteString(" #      #          #");
+ 4fa:	8f e9       	ldi	r24, 0x9F	; 159
  4fc:	90 e0       	ldi	r25, 0x00	; 0
  4fe:	0e 94 36 02 	call	0x46c	; 0x46c <GLCD_WriteString>
 	GLCD_GoTo(0,7);
  502:	67 e0       	ldi	r22, 0x07	; 7
  504:	80 e0       	ldi	r24, 0x00	; 0
  506:	0e 94 c9 01 	call	0x392	; 0x392 <GLCD_GoTo>
-	GLCD_WriteString("+-------------------+");
- 50a:	80 e6       	ldi	r24, 0x60	; 96
+	GLCD_WriteString(" #      #     ######");
+ 50a:	84 eb       	ldi	r24, 0xB4	; 180
  50c:	90 e0       	ldi	r25, 0x00	; 0
  50e:	0e 94 36 02 	call	0x46c	; 0x46c <GLCD_WriteString>
+	
 	
 	while(1)
 	{
