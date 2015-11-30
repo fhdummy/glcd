@@ -4,8 +4,6 @@
 
 graphic.c
 
-KS0108-AVR.c
-
 KS0108.c
 
 main.c
