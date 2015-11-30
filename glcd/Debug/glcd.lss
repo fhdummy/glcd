@@ -13,21 +13,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000650  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000108  00000000  00000000  0000068c  2**0
+  5 .debug_aranges 000000b0  00000000  00000000  0000068c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000109f  00000000  00000000  00000794  2**0
+  6 .debug_info   00000d16  00000000  00000000  0000073c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000435  00000000  00000000  00001833  2**0
+  7 .debug_abbrev 00000302  00000000  00000000  00001452  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000004c1  00000000  00000000  00001c68  2**0
+  8 .debug_line   00000311  00000000  00000000  00001754  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  0000026c  00000000  00000000  0000212c  2**2
+  9 .debug_frame  000001a0  00000000  00000000  00001a68  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000424  00000000  00000000  00002398  2**0
+ 10 .debug_str    00000317  00000000  00000000  00001c08  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000080e  00000000  00000000  000027bc  2**0
+ 11 .debug_loc    000005f3  00000000  00000000  00001f1f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000e8  00000000  00000000  00002fca  2**0
+ 12 .debug_ranges 00000090  00000000  00000000  00002512  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -350,13 +350,13 @@ switch(controller){
  278:	82 30       	cpi	r24, 0x02	; 2
  27a:	29 f0       	breq	.+10     	; 0x286 <GLCD_EnableController+0x14>
  27c:	08 95       	ret
-	case 0 : CTRL_PORT &= ~KS0108_CS1; break;
+	case 0 : CTRL_PORT &= ~GLCD_CS1; break;
  27e:	c6 98       	cbi	0x18, 6	; 24
  280:	08 95       	ret
-	case 1 : CTRL_PORT &= ~KS0108_CS2; break;
+	case 1 : CTRL_PORT &= ~GLCD_CS2; break;
  282:	c5 98       	cbi	0x18, 5	; 24
  284:	08 95       	ret
-	case 2 : CTRL_PORT &= ~KS0108_CS3; break;
+	case 2 : CTRL_PORT &= ~GLCD_CS3; break;
  286:	c7 98       	cbi	0x18, 7	; 24
  288:	08 95       	ret
 
@@ -373,13 +373,13 @@ switch(controller){
  290:	82 30       	cpi	r24, 0x02	; 2
  292:	29 f0       	breq	.+10     	; 0x29e <GLCD_DisableController+0x14>
  294:	08 95       	ret
-	case 0 : CTRL_PORT |= KS0108_CS1; break;
+	case 0 : CTRL_PORT |= GLCD_CS1; break;
  296:	c6 9a       	sbi	0x18, 6	; 24
  298:	08 95       	ret
-	case 1 : CTRL_PORT |= KS0108_CS2; break;
+	case 1 : CTRL_PORT |= GLCD_CS2; break;
  29a:	c5 9a       	sbi	0x18, 5	; 24
  29c:	08 95       	ret
-	case 2 : CTRL_PORT |= KS0108_CS3; break;
+	case 2 : CTRL_PORT |= GLCD_CS3; break;
  29e:	c7 9a       	sbi	0x18, 7	; 24
  2a0:	08 95       	ret
 
@@ -394,17 +394,17 @@ unsigned char GLCD_ReadStatus(unsigned char controller)
  2a4:	df 93       	push	r29
  2a6:	c8 2f       	mov	r28, r24
 	unsigned char status;
-	KS0108_DATA_DIR = 0x00;
+	GLCD_DATA_DIR = 0x00;
  2a8:	11 ba       	out	0x11, r1	; 17
-	KS0108_DATA_PORT = 0x00;
+	GLCD_DATA_PORT = 0x00;
  2aa:	12 ba       	out	0x12, r1	; 18
-	CTRL_PORT |= KS0108_RW;
+	CTRL_PORT |= GLCD_RW;
  2ac:	c1 9a       	sbi	0x18, 1	; 24
-	CTRL_PORT &= ~KS0108_RS;
+	CTRL_PORT &= ~GLCD_RS;
  2ae:	c2 98       	cbi	0x18, 2	; 24
 	GLCD_EnableController(controller);
  2b0:	0e 94 39 01 	call	0x272	; 0x272 <GLCD_EnableController>
-	CTRL_PORT |= KS0108_EN;
+	CTRL_PORT |= GLCD_EN;
  2b4:	c0 9a       	sbi	0x18, 0	; 24
 	#else
 		//round up by default
@@ -417,9 +417,9 @@ unsigned char GLCD_ReadStatus(unsigned char controller)
  2ba:	f1 f7       	brne	.-4      	; 0x2b8 <GLCD_ReadStatus+0x16>
  2bc:	00 c0       	rjmp	.+0      	; 0x2be <GLCD_ReadStatus+0x1c>
 	GLCD_Delay();
-	status = KS0108_DATA_PIN;
+	status = GLCD_DATA_PIN;
  2be:	d0 b3       	in	r29, 0x10	; 16
-	CTRL_PORT &= ~KS0108_EN;
+	CTRL_PORT &= ~GLCD_EN;
  2c0:	c0 98       	cbi	0x18, 0	; 24
 	GLCD_DisableController(controller);
  2c2:	8c 2f       	mov	r24, r28
@@ -462,26 +462,26 @@ void GLCD_WriteCommand(unsigned char commandToWrite, unsigned char controller)
 	{
 		t = GLCD_ReadStatus(controller);
 	}
-	KS0108_DATA_DIR = 0xFF;
+	GLCD_DATA_DIR = 0xFF;
  2ec:	8f ef       	ldi	r24, 0xFF	; 255
  2ee:	81 bb       	out	0x11, r24	; 17
-	CTRL_PORT &= ~(KS0108_RW | KS0108_RS);
+	CTRL_PORT &= ~(GLCD_RW | GLCD_RS);
  2f0:	98 b3       	in	r25, 0x18	; 24
  2f2:	99 7f       	andi	r25, 0xF9	; 249
  2f4:	98 bb       	out	0x18, r25	; 24
 	GLCD_EnableController(controller);
  2f6:	8c 2f       	mov	r24, r28
  2f8:	0e 94 39 01 	call	0x272	; 0x272 <GLCD_EnableController>
-	KS0108_DATA_PORT = commandToWrite;
+	GLCD_DATA_PORT = commandToWrite;
  2fc:	d2 bb       	out	0x12, r29	; 18
-	CTRL_PORT |= KS0108_EN;
+	CTRL_PORT |= GLCD_EN;
  2fe:	c0 9a       	sbi	0x18, 0	; 24
  300:	82 e0       	ldi	r24, 0x02	; 2
  302:	8a 95       	dec	r24
  304:	f1 f7       	brne	.-4      	; 0x302 <GLCD_WriteCommand+0x32>
  306:	00 c0       	rjmp	.+0      	; 0x308 <GLCD_WriteCommand+0x38>
 	GLCD_Delay();
-	CTRL_PORT &= ~KS0108_EN;
+	CTRL_PORT &= ~GLCD_EN;
  308:	c0 98       	cbi	0x18, 0	; 24
 	GLCD_DisableController(controller);
  30a:	8c 2f       	mov	r24, r28
@@ -500,7 +500,7 @@ void GLCD_WriteData(unsigned char dataToWrite)
 {
  316:	cf 93       	push	r28
  318:	c8 2f       	mov	r28, r24
-while(GLCD_ReadStatus(screen_x / 64)&DISPLAY_STATUS_BUSY);
+	while(GLCD_ReadStatus(screen_x / 64)&DISPLAY_STATUS_BUSY);
  31a:	80 91 cb 00 	lds	r24, 0x00CB
  31e:	82 95       	swap	r24
  320:	86 95       	lsr	r24
@@ -509,39 +509,39 @@ while(GLCD_ReadStatus(screen_x / 64)&DISPLAY_STATUS_BUSY);
  326:	0e 94 51 01 	call	0x2a2	; 0x2a2 <GLCD_ReadStatus>
  32a:	88 23       	and	r24, r24
  32c:	b4 f3       	brlt	.-20     	; 0x31a <GLCD_WriteData+0x4>
-KS0108_DATA_DIR = 0xFF;
+	GLCD_DATA_DIR = 0xFF;
  32e:	8f ef       	ldi	r24, 0xFF	; 255
  330:	81 bb       	out	0x11, r24	; 17
-CTRL_PORT &= ~KS0108_RW;
+	CTRL_PORT &= ~GLCD_RW;
  332:	c1 98       	cbi	0x18, 1	; 24
-CTRL_PORT |= KS0108_RS;
+	CTRL_PORT |= GLCD_RS;
  334:	c2 9a       	sbi	0x18, 2	; 24
-KS0108_DATA_PORT = dataToWrite;
+	GLCD_DATA_PORT = dataToWrite;
  336:	c2 bb       	out	0x12, r28	; 18
-GLCD_EnableController(screen_x / 64);
+	GLCD_EnableController(screen_x / 64);
  338:	80 91 cb 00 	lds	r24, 0x00CB
  33c:	82 95       	swap	r24
  33e:	86 95       	lsr	r24
  340:	86 95       	lsr	r24
  342:	83 70       	andi	r24, 0x03	; 3
  344:	0e 94 39 01 	call	0x272	; 0x272 <GLCD_EnableController>
-CTRL_PORT |= KS0108_EN;
+	CTRL_PORT |= GLCD_EN;
  348:	c0 9a       	sbi	0x18, 0	; 24
  34a:	82 e0       	ldi	r24, 0x02	; 2
  34c:	8a 95       	dec	r24
  34e:	f1 f7       	brne	.-4      	; 0x34c <GLCD_WriteData+0x36>
  350:	00 c0       	rjmp	.+0      	; 0x352 <GLCD_WriteData+0x3c>
-GLCD_Delay();
-CTRL_PORT &= ~KS0108_EN;
+	GLCD_Delay();
+	CTRL_PORT &= ~GLCD_EN;
  352:	c0 98       	cbi	0x18, 0	; 24
-GLCD_DisableController(screen_x / 64);
+	GLCD_DisableController(screen_x / 64);
  354:	80 91 cb 00 	lds	r24, 0x00CB
  358:	82 95       	swap	r24
  35a:	86 95       	lsr	r24
  35c:	86 95       	lsr	r24
  35e:	83 70       	andi	r24, 0x03	; 3
  360:	0e 94 45 01 	call	0x28a	; 0x28a <GLCD_DisableController>
-screen_x++;
+	screen_x++;
  364:	80 91 cb 00 	lds	r24, 0x00CB
  368:	8f 5f       	subi	r24, 0xFF	; 255
  36a:	80 93 cb 00 	sts	0x00CB, r24
@@ -555,11 +555,11 @@ screen_x++;
 //-------------------------------------------------------------------------------------------------
 void GLCD_InitalizePorts(void)
 {
-CTRL_DIR |= (KS0108_CS1 | KS0108_CS2 | KS0108_CS3 | KS0108_RS | KS0108_RW | KS0108_EN);
+	CTRL_DIR |= (GLCD_CS1 | GLCD_CS2 | GLCD_CS3 | GLCD_RS | GLCD_RW | GLCD_EN);
  372:	87 b3       	in	r24, 0x17	; 23
  374:	87 6e       	ori	r24, 0xE7	; 231
  376:	87 bb       	out	0x17, r24	; 23
-CTRL_PORT |= (KS0108_CS1 | KS0108_CS2 | KS0108_CS3);
+	CTRL_PORT |= (GLCD_CS1 | GLCD_CS2 | GLCD_CS3);
  378:	88 b3       	in	r24, 0x18	; 24
  37a:	80 6e       	ori	r24, 0xE0	; 224
  37c:	88 bb       	out	0x18, r24	; 24
@@ -602,7 +602,7 @@ void GLCD_GoTo(unsigned char x, unsigned char y)
 	screen_y = y;
  3ac:	60 93 ca 00 	sts	0x00CA, r22
 
-	for(i = 0; i < KS0108_SCREEN_WIDTH/64; i++)
+	for(i = 0; i < GLCD_SCREEN_WIDTH/64; i++)
 	{
 		GLCD_WriteCommand(DISPLAY_SET_Y | 0,i);
  3b0:	60 e0       	ldi	r22, 0x00	; 0
@@ -620,7 +620,7 @@ void GLCD_GoTo(unsigned char x, unsigned char y)
 	screen_x = x;
 	screen_y = y;
 
-	for(i = 0; i < KS0108_SCREEN_WIDTH/64; i++)
+	for(i = 0; i < GLCD_SCREEN_WIDTH/64; i++)
 	{
 		GLCD_WriteCommand(DISPLAY_SET_Y | 0,i);
  3ca:	61 e0       	ldi	r22, 0x01	; 1
@@ -663,7 +663,7 @@ void GLCD_ClearScreen(void)
  408:	cf 93       	push	r28
  40a:	df 93       	push	r29
 	unsigned char i, j;
-	for(j = 0; j < KS0108_SCREEN_HEIGHT/8; j++)
+	for(j = 0; j < GLCD_SCREEN_HEIGHT/8; j++)
  40c:	d0 e0       	ldi	r29, 0x00	; 0
 	{
 		GLCD_GoTo(0,j);
@@ -671,16 +671,16 @@ void GLCD_ClearScreen(void)
  410:	80 e0       	ldi	r24, 0x00	; 0
  412:	0e 94 cf 01 	call	0x39e	; 0x39e <GLCD_GoTo>
  416:	c0 e0       	ldi	r28, 0x00	; 0
-		for(i = 0; i < KS0108_SCREEN_WIDTH; i++)
+		for(i = 0; i < GLCD_SCREEN_WIDTH; i++)
 		GLCD_WriteData(0x00);
  418:	80 e0       	ldi	r24, 0x00	; 0
  41a:	0e 94 8b 01 	call	0x316	; 0x316 <GLCD_WriteData>
 {
 	unsigned char i, j;
-	for(j = 0; j < KS0108_SCREEN_HEIGHT/8; j++)
+	for(j = 0; j < GLCD_SCREEN_HEIGHT/8; j++)
 	{
 		GLCD_GoTo(0,j);
-		for(i = 0; i < KS0108_SCREEN_WIDTH; i++)
+		for(i = 0; i < GLCD_SCREEN_WIDTH; i++)
  41e:	cf 5f       	subi	r28, 0xFF	; 255
  420:	c0 38       	cpi	r28, 0x80	; 128
  422:	d1 f7       	brne	.-12     	; 0x418 <GLCD_ClearScreen+0x10>
@@ -689,13 +689,13 @@ void GLCD_ClearScreen(void)
 void GLCD_ClearScreen(void)
 {
 	unsigned char i, j;
-	for(j = 0; j < KS0108_SCREEN_HEIGHT/8; j++)
+	for(j = 0; j < GLCD_SCREEN_HEIGHT/8; j++)
  424:	df 5f       	subi	r29, 0xFF	; 255
  426:	d8 30       	cpi	r29, 0x08	; 8
  428:	91 f7       	brne	.-28     	; 0x40e <GLCD_ClearScreen+0x6>
 	{
 		GLCD_GoTo(0,j);
-		for(i = 0; i < KS0108_SCREEN_WIDTH; i++)
+		for(i = 0; i < GLCD_SCREEN_WIDTH; i++)
 		GLCD_WriteData(0x00);
 	}
 }
@@ -735,7 +735,7 @@ void GLCD_WriteChar(char charToWrite)
 //-------------------------------------------------------------------------------------------------
 unsigned char GLCD_ReadByteFromROMMemory(char * ptr)
 {
-return pgm_read_byte(ptr);
+	return pgm_read_byte(ptr);
  456:	fe 01       	movw	r30, r28
  458:	84 91       	lpm	r24, Z
 void GLCD_WriteChar(char charToWrite)
@@ -796,19 +796,15 @@ void GLCD_WriteString(char * stringToWrite)
  492:	08 95       	ret
 
 00000494 <main>:
-	
-	KS0108_DATA_PORT = 0b00111110;
-	
-	KS0108_CTRL_PORT &= ~KS0108_EN;*/
-	
+#include "font5x8.h"
+#include "graphic.h"
+
+int main()
+{	
 	GLCD_Initalize();
  494:	0e 94 c0 01 	call	0x380	; 0x380 <GLCD_Initalize>
 	GLCD_ClearScreen();
  498:	0e 94 04 02 	call	0x408	; 0x408 <GLCD_ClearScreen>
-	GLCD_WriteString("|  microcontrollers |");
-	GLCD_GoTo(0,7);
-	GLCD_WriteString("+-------------------+");*/
-	
 	
 	GLCD_GoTo(0,0);
  49c:	60 e0       	ldi	r22, 0x00	; 0
@@ -874,7 +870,6 @@ void GLCD_WriteString(char * stringToWrite)
  514:	84 eb       	ldi	r24, 0xB4	; 180
  516:	90 e0       	ldi	r25, 0x00	; 0
  518:	0e 94 3b 02 	call	0x476	; 0x476 <GLCD_WriteString>
-	
 	
 	while(1)
 	{

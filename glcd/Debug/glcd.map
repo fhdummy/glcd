@@ -45,30 +45,6 @@ Discarded input sections
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
- .text.MCP23S17_Init
-                0x00000000       0x34 main.o
- .text.MCP23S17_ByteRW
-                0x00000000        0xa main.o
- .text.MCP23S17_WriteBothRegs
-                0x00000000       0x30 main.o
- .text.MCP23S17_SetDDR
-                0x00000000        0xe main.o
- .text.MCP23S17_SetPins
-                0x00000000        0xa main.o
- .text.MCP23S17_SetPullups
-                0x00000000        0xa main.o
- .text.MCP23S17_ReadBothRegs
-                0x00000000       0x36 main.o
- .text.MCP23S17_ReadPins
-                0x00000000        0x8 main.o
- .text.MCP23S17_GetOutputs
-                0x00000000        0x8 main.o
- .text.MCP23S17_GetDDR
-                0x00000000        0xc main.o
- .text.MCP23S17_GetPullups
-                0x00000000        0x8 main.o
- .bss.MCP23S17_Inited
-                0x00000000        0x1 main.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
@@ -477,47 +453,46 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x108
+.debug_aranges  0x00000000       0xb0
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x90 KS0108.o
  .debug_aranges
-                0x00000090       0x78 main.o
+                0x00000090       0x20 main.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x109f
+.debug_info     0x00000000      0xd16
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x890 KS0108.o
- .debug_info    0x00000890      0x80f main.o
+ .debug_info    0x00000890      0x486 main.o
 
-.debug_abbrev   0x00000000      0x435
+.debug_abbrev   0x00000000      0x302
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x231 KS0108.o
- .debug_abbrev  0x00000231      0x204 main.o
+ .debug_abbrev  0x00000231       0xd1 main.o
 
-.debug_line     0x00000000      0x4c1
+.debug_line     0x00000000      0x311
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x2aa KS0108.o
- .debug_line    0x000002aa      0x217 main.o
+ .debug_line    0x00000000      0x2a9 KS0108.o
+ .debug_line    0x000002a9       0x68 main.o
 
-.debug_frame    0x00000000      0x26c
+.debug_frame    0x00000000      0x1a0
  *(.debug_frame)
  .debug_frame   0x00000000      0x17c KS0108.o
- .debug_frame   0x0000017c       0xf0 main.o
+ .debug_frame   0x0000017c       0x24 main.o
 
-.debug_str      0x00000000      0x424
+.debug_str      0x00000000      0x317
  *(.debug_str)
  .debug_str     0x00000000      0x306 KS0108.o
                                 0x33f (size before relaxing)
- .debug_str     0x00000306      0x11e main.o
-                                0x30c (size before relaxing)
+ .debug_str     0x00000306       0x11 main.o
+                                0x1ad (size before relaxing)
 
-.debug_loc      0x00000000      0x80e
+.debug_loc      0x00000000      0x5f3
  *(.debug_loc)
  .debug_loc     0x00000000      0x5f3 KS0108.o
- .debug_loc     0x000005f3      0x21b main.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -537,10 +512,10 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0xe8
+.debug_ranges   0x00000000       0x90
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x80 KS0108.o
- .debug_ranges  0x00000080       0x68 main.o
+ .debug_ranges  0x00000080       0x10 main.o
 
 .debug_macro
  *(.debug_macro)

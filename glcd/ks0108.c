@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------------------------------------
-// Universal KS0108 driver library
+// Universal GLCD driver library
 // (c) Rados³aw Kwiecieñ, radek@dxp.pl
 //-------------------------------------------------------------------------------------------------
 #include <avr/io.h>
@@ -7,7 +7,6 @@
 #include <avr/pgmspace.h>
 #include "KS0108.h"
 #include "font5x8.h"
-
 
 unsigned char screen_x = 0, screen_y = 0;
 
@@ -24,9 +23,9 @@ void GLCD_Delay(void)
 void GLCD_EnableController(unsigned char controller)
 {
 switch(controller){
-	case 0 : CTRL_PORT &= ~KS0108_CS1; break;
-	case 1 : CTRL_PORT &= ~KS0108_CS2; break;
-	case 2 : CTRL_PORT &= ~KS0108_CS3; break;
+	case 0 : CTRL_PORT &= ~GLCD_CS1; break;
+	case 1 : CTRL_PORT &= ~GLCD_CS2; break;
+	case 2 : CTRL_PORT &= ~GLCD_CS3; break;
 	}
 }
 //-------------------------------------------------------------------------------------------------
@@ -35,9 +34,9 @@ switch(controller){
 void GLCD_DisableController(unsigned char controller)
 {
 switch(controller){
-	case 0 : CTRL_PORT |= KS0108_CS1; break;
-	case 1 : CTRL_PORT |= KS0108_CS2; break;
-	case 2 : CTRL_PORT |= KS0108_CS3; break;
+	case 0 : CTRL_PORT |= GLCD_CS1; break;
+	case 1 : CTRL_PORT |= GLCD_CS2; break;
+	case 2 : CTRL_PORT |= GLCD_CS3; break;
 	}
 }
 //-------------------------------------------------------------------------------------------------
@@ -46,15 +45,15 @@ switch(controller){
 unsigned char GLCD_ReadStatus(unsigned char controller)
 {
 	unsigned char status;
-	KS0108_DATA_DIR = 0x00;
-	KS0108_DATA_PORT = 0x00;
-	CTRL_PORT |= KS0108_RW;
-	CTRL_PORT &= ~KS0108_RS;
+	GLCD_DATA_DIR = 0x00;
+	GLCD_DATA_PORT = 0x00;
+	CTRL_PORT |= GLCD_RW;
+	CTRL_PORT &= ~GLCD_RS;
 	GLCD_EnableController(controller);
-	CTRL_PORT |= KS0108_EN;
+	CTRL_PORT |= GLCD_EN;
 	GLCD_Delay();
-	status = KS0108_DATA_PIN;
-	CTRL_PORT &= ~KS0108_EN;
+	status = GLCD_DATA_PIN;
+	CTRL_PORT &= ~GLCD_EN;
 	GLCD_DisableController(controller);
 	return status;
 }
@@ -68,13 +67,13 @@ void GLCD_WriteCommand(unsigned char commandToWrite, unsigned char controller)
 	{
 		t = GLCD_ReadStatus(controller);
 	}
-	KS0108_DATA_DIR = 0xFF;
-	CTRL_PORT &= ~(KS0108_RW | KS0108_RS);
+	GLCD_DATA_DIR = 0xFF;
+	CTRL_PORT &= ~(GLCD_RW | GLCD_RS);
 	GLCD_EnableController(controller);
-	KS0108_DATA_PORT = commandToWrite;
-	CTRL_PORT |= KS0108_EN;
+	GLCD_DATA_PORT = commandToWrite;
+	CTRL_PORT |= GLCD_EN;
 	GLCD_Delay();
-	CTRL_PORT &= ~KS0108_EN;
+	CTRL_PORT &= ~GLCD_EN;
 	GLCD_DisableController(controller);
 }
 //-------------------------------------------------------------------------------------------------
@@ -84,14 +83,14 @@ unsigned char GLCD_ReadData(void)
 {
 	unsigned char data;
 	while(GLCD_ReadStatus(screen_x / 64)&DISPLAY_STATUS_BUSY);
-	KS0108_DATA_DIR = 0x00;
-	CTRL_PORT |= (KS0108_RW | KS0108_RS);
+	GLCD_DATA_DIR = 0x00;
+	CTRL_PORT |= (GLCD_RW | GLCD_RS);
 	GLCD_EnableController(screen_x / 64);
 	GLCD_Delay();
-	CTRL_PORT |= KS0108_EN;
+	CTRL_PORT |= GLCD_EN;
 	GLCD_Delay();
-	data = KS0108_DATA_PIN;
-	CTRL_PORT &= ~KS0108_EN;
+	data = GLCD_DATA_PIN;
+	CTRL_PORT &= ~GLCD_EN;
 	GLCD_DisableController(screen_x / 64);
 	screen_x++;
 	return data;
@@ -101,32 +100,32 @@ unsigned char GLCD_ReadData(void)
 //-------------------------------------------------------------------------------------------------
 void GLCD_WriteData(unsigned char dataToWrite)
 {
-while(GLCD_ReadStatus(screen_x / 64)&DISPLAY_STATUS_BUSY);
-KS0108_DATA_DIR = 0xFF;
-CTRL_PORT &= ~KS0108_RW;
-CTRL_PORT |= KS0108_RS;
-KS0108_DATA_PORT = dataToWrite;
-GLCD_EnableController(screen_x / 64);
-CTRL_PORT |= KS0108_EN;
-GLCD_Delay();
-CTRL_PORT &= ~KS0108_EN;
-GLCD_DisableController(screen_x / 64);
-screen_x++;
+	while(GLCD_ReadStatus(screen_x / 64)&DISPLAY_STATUS_BUSY);
+	GLCD_DATA_DIR = 0xFF;
+	CTRL_PORT &= ~GLCD_RW;
+	CTRL_PORT |= GLCD_RS;
+	GLCD_DATA_PORT = dataToWrite;
+	GLCD_EnableController(screen_x / 64);
+	CTRL_PORT |= GLCD_EN;
+	GLCD_Delay();
+	CTRL_PORT &= ~GLCD_EN;
+	GLCD_DisableController(screen_x / 64);
+	screen_x++;
 }
 //-------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------
 void GLCD_InitalizePorts(void)
 {
-CTRL_DIR |= (KS0108_CS1 | KS0108_CS2 | KS0108_CS3 | KS0108_RS | KS0108_RW | KS0108_EN);
-CTRL_PORT |= (KS0108_CS1 | KS0108_CS2 | KS0108_CS3);
+	CTRL_DIR |= (GLCD_CS1 | GLCD_CS2 | GLCD_CS3 | GLCD_RS | GLCD_RW | GLCD_EN);
+	CTRL_PORT |= (GLCD_CS1 | GLCD_CS2 | GLCD_CS3);
 }
 //-------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------
 unsigned char GLCD_ReadByteFromROMMemory(char * ptr)
 {
-return pgm_read_byte(ptr);
+	return pgm_read_byte(ptr);
 }
 
 void GLCD_Initalize(void)
@@ -143,7 +142,7 @@ void GLCD_GoTo(unsigned char x, unsigned char y)
 	screen_x = x;
 	screen_y = y;
 
-	for(i = 0; i < KS0108_SCREEN_WIDTH/64; i++)
+	for(i = 0; i < GLCD_SCREEN_WIDTH/64; i++)
 	{
 		GLCD_WriteCommand(DISPLAY_SET_Y | 0,i);
 		GLCD_WriteCommand(DISPLAY_SET_X | y,i);
@@ -156,10 +155,10 @@ void GLCD_GoTo(unsigned char x, unsigned char y)
 void GLCD_ClearScreen(void)
 {
 	unsigned char i, j;
-	for(j = 0; j < KS0108_SCREEN_HEIGHT/8; j++)
+	for(j = 0; j < GLCD_SCREEN_HEIGHT/8; j++)
 	{
 		GLCD_GoTo(0,j);
-		for(i = 0; i < KS0108_SCREEN_WIDTH; i++)
+		for(i = 0; i < GLCD_SCREEN_WIDTH; i++)
 		GLCD_WriteData(0x00);
 	}
 }
