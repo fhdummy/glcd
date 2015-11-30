@@ -244,14 +244,13 @@ int main()
 	
 	KS0108_CTRL_PORT &= ~KS0108_EN;*/
 	
-	
 	GLCD_Initalize();
 	GLCD_ClearScreen();
 
 	GLCD_GoTo(0,0);
 	GLCD_WriteString("+-------------------+");
 	GLCD_GoTo(0,1);
-	GLCD_WriteString("|     Universal     |");
+	GLCD_WriteString("|     #MICisGAY     |");
 	GLCD_GoTo(0,2);
 	GLCD_WriteString("|   KS0108 library  |");
 	GLCD_GoTo(0,3);
