@@ -37,7 +37,9 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
-../ks0108.c \
+../graphic.c \
+../KS0108-AVR.c \
+../KS0108.c \
 ../main.c
 
 
@@ -48,19 +50,27 @@ ASM_SRCS +=
 
 
 OBJS +=  \
-ks0108.o \
+graphic.o \
+KS0108-AVR.o \
+KS0108.o \
 main.o
 
 OBJS_AS_ARGS +=  \
-ks0108.o \
+graphic.o \
+KS0108-AVR.o \
+KS0108.o \
 main.o
 
 C_DEPS +=  \
-ks0108.d \
+graphic.d \
+KS0108-AVR.d \
+KS0108.d \
 main.d
 
 C_DEPS_AS_ARGS +=  \
-ks0108.d \
+graphic.d \
+KS0108-AVR.d \
+KS0108.d \
 main.d
 
 OUTPUT_FILE_PATH +=glcd.elf
@@ -77,6 +87,10 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
+
+
 
 
 

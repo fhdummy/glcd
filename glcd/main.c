@@ -25,6 +25,24 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <stdbool.h>
+#include "KS0108.h"
+#include "font5x8.h"
+#include "graphic.h"
+
+#define KS0108_DATA_PORT	PORTD
+#define KS0108_DATA_DIR		DDRD
+#define KS0108_DATA_PIN		PIND
+
+#define KS0108_CTRL_PORT	PORTB
+#define KS0108_CTRL_DIR		DDRB
+
+#define KS0108_RS			(1 << 2)
+#define KS0108_RW			(1 << 1)
+#define KS0108_EN			(1 << 0)
+
+#define KS0108_CS1			(1 << 6)
+#define KS0108_CS2			(1 << 5)
+#define KS0108_CS3			(1 << 5)
 
 static bool MCP23S17_Inited = false;
 
@@ -213,14 +231,39 @@ uint16_t MCP23S17_ReadBothRegs(uint8_t addrA)
 
 int main()
 {
+	/*DDRB = 0xFF;
+	DDRD = 0xFF;
 	
-	MCP23S17_Init();
-	MCP23S17_SetDDR(0x00);
-	MCP23S17_SetPins(0x00);
+	KS0108_CTRL_PORT |= KS0108_EN;
+	_delay_ms(20);
+	KS0108_CTRL_PORT &= ~KS0108_RS;
+	KS0108_CTRL_PORT &= ~KS0108_CS1;
+	KS0108_CTRL_PORT &= ~KS0108_CS2;
 	
-	uint16_t temp = MCP23S17_GetDDR();
+	KS0108_DATA_PORT = 0b00111110;
+	
+	KS0108_CTRL_PORT &= ~KS0108_EN;*/
 	
 	
+	GLCD_Initalize();
+	GLCD_ClearScreen();
+
+	GLCD_GoTo(0,0);
+	GLCD_WriteString("+-------------------+");
+	GLCD_GoTo(0,1);
+	GLCD_WriteString("|     Universal     |");
+	GLCD_GoTo(0,2);
+	GLCD_WriteString("|   KS0108 library  |");
+	GLCD_GoTo(0,3);
+	GLCD_WriteString("|                   |");
+	GLCD_GoTo(0,4);
+	GLCD_WriteString("|  en.radzio.dxp.pl |");
+	GLCD_GoTo(0,5);
+	GLCD_WriteString("|  STM32 Cortex-M3  |");
+	GLCD_GoTo(0,6);
+	GLCD_WriteString("|  microcontrollers |");
+	GLCD_GoTo(0,7);
+	GLCD_WriteString("+-------------------+");
 	
 	while(1)
 	{
