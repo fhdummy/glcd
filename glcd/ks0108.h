@@ -10,7 +10,7 @@
 #define CTRL_PORT	PORTB
 #define CTRL_DIR	DDRB
 
-#define GLCD_RS		(1 << 2)	//PB2
+#define GLCD_RS		(1 << 4)	//PB4
 #define GLCD_RW		(1 << 1)	//PB1
 #define GLCD_EN		(1 << 0)	//PB0
 #define GLCD_CS1	(1 << 6)	//PB6
